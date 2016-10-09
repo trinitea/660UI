@@ -1,0 +1,9 @@
+/debug
+/release
+/.vs
+/*.debug
+/*.release
+/*.qmake.stash
+/*.user
+gitgenerator.txt
+Makefile
