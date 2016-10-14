@@ -1,9 +1,5 @@
-/debug
-/release
+/Temp
 /.vs
-/*.debug
-/*.release
-/*.qmake.stash
-/*.user
+/Library
 gitgenerator.txt
 Makefile
