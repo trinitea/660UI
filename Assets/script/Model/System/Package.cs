@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 //AKA: terme pour "forfait" en anglais
-class Package
+public class Package
 {
 
 }
