@@ -5,8 +5,8 @@ using SimpleJSON;
 
 public class GameMode : MonoBehaviour {
 
-    private User user;
-    private Config config;
+    public User CurrentUser { get; set; }
+    private Config SystemConfig;
 
     public Logger Logger;
     public PanelLogin PanelLogin;
@@ -18,12 +18,22 @@ public class GameMode : MonoBehaviour {
         Logger.parent = this;
         PanelLogin.parent = this;
         //PanelUser.parent = this;
-        //PanelMovie.parent = this;
+        PanelMovie.parent = this;
+
+        //Lang.LoadCatalog(false);
+        //Lang.LoadCatalog(false);
+        //Lang.LoadCatalog(false);
+        //Lang.LoadCatalog(false);
+    }
+
+    public User GetCurrentUser()
+    {
+        return CurrentUser;
     }
 
     public void LoginSuccess(User newUser)
     {
-        user = newUser;
+        CurrentUser = newUser;
         PanelLogin.Reset();
         PanelLogin.gameObject.SetActive(false);
     }

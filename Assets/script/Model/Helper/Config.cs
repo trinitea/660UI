@@ -62,11 +62,12 @@ public class Config
         }
         catch (FileNotFoundException fnfe)
         {
-            Debug.Log("Config file not found");
+            fnfe.ToString();
+            Debug.Log("Config file not found\n" + fnfe.ToString());
         }
         catch (Exception e)
         {
-            Debug.Log("Can't config file");
+            Debug.Log("Can't config file\n" + e.ToString());
         }
 
         return newConfig;

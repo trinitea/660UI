@@ -4,8 +4,8 @@ using System.Collections;
 
 public class PanelLogin : BasePanel
 {
-    public InputField usernameField;
-    public InputField passwordField;
+    public InputField UsernameField;
+    public InputField PasswordField;
 
 
     // Use this for initialization
@@ -31,7 +31,7 @@ public class PanelLogin : BasePanel
 
     override public void Reset()
     {
-        usernameField.text = "";
-        passwordField.text = "";
+        UsernameField.text = "";
+        PasswordField.text = "";
     }
 }

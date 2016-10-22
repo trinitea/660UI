@@ -14,6 +14,7 @@ public class User
     public string Telephone { get; set; }
     public DateTime Birthday { get; set; }
     public CreditCard Card { get; set; }
+    public Address ShippingAddress { get; set; }
 
     public User(string json)
     {

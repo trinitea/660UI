@@ -66,15 +66,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\script\GameMode.cs" />
-    <Compile Include="Assets\script\Model\Adresse.cs" />
+    <Compile Include="Assets\script\Model\Address.cs" />
     <Compile Include="Assets\script\Model\CreditCard.cs" />
     <Compile Include="Assets\script\Model\Film.cs" />
     <Compile Include="Assets\script\Model\Helper\Config.cs" />
     <Compile Include="Assets\script\Model\Helper\SimpleJSON.cs" />
+    <Compile Include="Assets\script\Model\System\Catalog.cs" />
     <Compile Include="Assets\script\Model\System\Country.cs" />
-    <Compile Include="Assets\script\Model\System\Data\RestResponse.cs" />
     <Compile Include="Assets\script\Model\System\DBManager.cs" />
     <Compile Include="Assets\script\Model\System\Data\RestHelper.cs" />
+    <Compile Include="Assets\script\Model\System\Data\RestResponse.cs" />
     <Compile Include="Assets\script\Model\System\Genre.cs" />
     <Compile Include="Assets\script\Model\System\Lang.cs" />
     <Compile Include="Assets\script\Model\System\Package.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\script\Model\User.cs" />
     <Compile Include="Assets\script\UIController\BasePanel.cs" />
     <Compile Include="Assets\script\UIController\Logger.cs" />
+    <Compile Include="Assets\script\UIController\PanelAdresse.cs" />
     <Compile Include="Assets\script\UIController\PanelLogin.cs" />
     <Compile Include="Assets\script\UIController\PanelMovie.cs" />
     <Compile Include="Assets\script\UIController\PanelUser.cs" />
