@@ -57,8 +57,7 @@ public class RestHelper : MonoBehaviour
             { "scenarist", scenarists },
             { "realisator", realisator }
         };
-
-        Debug.Log("in MovieSearch");
+        
         StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_MOVIE_SEARCH, param, callback ) );
     }
 
@@ -125,7 +124,7 @@ public class RestHelper : MonoBehaviour
             }
         }
 
-        Debug.Log("in ExecutePost");
+        //Debug.Log("in ExecutePost");
         WWW post = new WWW(url, form);
 
         yield return post;

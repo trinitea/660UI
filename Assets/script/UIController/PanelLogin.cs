@@ -7,26 +7,24 @@ public class PanelLogin : BasePanel
     public InputField UsernameField;
     public InputField PasswordField;
 
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void Login()
     {
-        RestHelper.Instance.Test(something);
+        RestHelper.Instance.Login(UsernameField.text, PasswordField.text, LoginResponse);
     }
 
-    public void something(RestResponse response)
+    public void LoginResponse(RestResponse response)
     {
-        Debug.Log(response.Value);
-        parent.LoginSuccess(new User(-1));
+        if (string.IsNullOrEmpty(response.Error))
+        {
+            //create user upon login response
+            Parent.LoginSuccess(new User(User.NEW_USER_ID));
+            Debug.Log(response.Value);
+        }
+        else
+        {
+            Parent.LoginSuccess(new User(User.NEW_USER_ID));
+            Debug.Log(response.Value);
+        }
     }
 
     override public void Reset()

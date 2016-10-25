@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public struct Address
+﻿public struct Address
 {
-    public string Number;
-    public DateTime ExpirationDate;
-    public string CCV;
+    public string CivicNumber;
+    public string Street;
+    public string Town;
+    public string Province;
+    public string PostalCode;
 
-    public Address(string number, DateTime expirationDate, string ccv)
+    public Address(string civicNumber, string street, string town, string province, string postalCode)
     {
-        Number = number;
-        ExpirationDate = expirationDate;
-        CCV = ccv;
+        CivicNumber = civicNumber;
+        Street = street;
+        Town = town;
+        Province = province;
+        PostalCode = postalCode;
     }
 }

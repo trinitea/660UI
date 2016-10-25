@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PanelMovie : BasePanel
 {
@@ -11,16 +13,6 @@ public class PanelMovie : BasePanel
     public InputField ActorField;
     public InputField ScenaristField;
     public InputField RealisatorField;
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-    }
 
     public void Search()
     {
@@ -36,14 +28,32 @@ public class PanelMovie : BasePanel
 
     public void ShowSearchResult(RestResponse response)
     {
-        if (response.Error == string.Empty)
+        if (response.Error == string.Empty || true)
         {
-            Debug.Log(response.Value);
+            List<Movie> movies = new List<Movie>() {
+                new Movie(1, "Test Movie 1", "Spooky", new DateTime(), 300, "some resume", 1),
+                new Movie(2, "Test Movie 2", "Spooky", new DateTime(), 200, "some resume", 1),
+                new Movie(3, "Test Movie 3", "Spooky", new DateTime(), 700, "some resume", 1),
+                new Movie(7, "Test Movie 7", "Spooky", new DateTime(), 75, "some resume", 1),
+                new Movie(4, "Test Movie 4", "Spooky", new DateTime(), 69, "some resume", 1),
+                new Movie(5, "Test Movie 5", "Spooky", new DateTime(), 75, "some resume", 1),
+                new Movie(6, "Test Movie 6", "Spooky", new DateTime(), 75, "some resume", 1),
+                new Movie(8, "Test Movie 8", "Spooky", new DateTime(), 75, "some resume", 1)
+            };
+
+            Utility.Modal.ShowMovieResults(movies, Rental);
         }
         else
         {
             Debug.Log(response.Error);
         }
+    }
+
+    public void Rental(Movie movie)
+    {
+        AudioSource audio = GetComponent<AudioSource>();
+        if (audio != null) audio.Play();
+        Utility.Modal.ShowConfirmDialog("New Item Acquired", "Congratulation\nYou got " + movie.Title);
     }
 
     override public void Reset()

@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 public class PanelUser : BasePanel
 {
+    private Address WorkingAddress;
+
     public Text CommitNote;
-    private Address WorkingAdress;
 
     public InputField FirstNameField;
     public InputField LastNameField;
@@ -19,29 +21,60 @@ public class PanelUser : BasePanel
     public InputField ExpirationField;
     public InputField CVVField;
 
-    public void init()
+    public void Init()
     {
-        if(parent.CurrentUser == null)
+        if(Parent.CurrentUser == null)
         {
             CommitNote.text = "Create";
+            WorkingAddress = Parent.CurrentUser.ShippingAddress;
         }
         else
         {
-
+            CommitNote.text = "Commit";
+            WorkingAddress = new Address("", "", "", "", "");
         }
+
+    }
+    
+    public void  SetWorkingAddress(Address address)
+    {
+        WorkingAddress = address;
     }
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public void CommitUser()
+    {
 
+        // should save stuff first and receive confirm
 
+        Parent.CurrentUser.Name = FirstNameField.text;
+        Parent.CurrentUser.LastName = LastNameField.text;
+        Parent.CurrentUser.Email = EmailField.text;
+        Parent.CurrentUser.Telephone = PhoneField.text;
+        Parent.CurrentUser.Birthday = Convert.ToDateTime(BirthDateField.text);
+
+        Parent.CurrentUser.Card = new CreditCard(
+            CreditNumberField.text,
+            CardTypeField.text,
+            Convert.ToDateTime( DateTime.ParseExact(ExpirationField.text, "mm/yy", null)),
+            CVVField.text
+        );
+        
+        Parent.CurrentUser.ShippingAddress = WorkingAddress;
+
+        // dont change old password ...
+        Parent.CurrentUser.Password = PasswordField.text;
+    }
+
+    public void EditAddress()
+    {
+
+    }
+
+    // not used for now
+    public void ConfirmUser()
+    {
+
+    }
 
     override public void Reset()
     {

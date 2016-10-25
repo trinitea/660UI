@@ -9,21 +9,68 @@ public class GameMode : MonoBehaviour {
     private Config SystemConfig;
 
     public Logger Logger;
-    public PanelLogin PanelLogin;
-    public PanelUser PanelUser;
-    public PanelMovie PanelMovie;
+    public PanelLogin PanLogin;
+    public PanelUser PanUser;
+    public PanelMovie PanMovie;
+
+    public GameObject PanMain;
+    public PanelModal PanModal;
 
     // Use this for initialization
     void Start () {
-        Logger.parent = this;
-        PanelLogin.parent = this;
-        //PanelUser.parent = this;
-        PanelMovie.parent = this;
+        Logger.Parent = this;
+        PanLogin.Parent = this;
+        PanUser.Parent = this;
+        PanMovie.Parent = this;
+
+        Utility.Init(PanModal);
 
         //Lang.LoadCatalog(false);
-        //Lang.LoadCatalog(false);
-        //Lang.LoadCatalog(false);
-        //Lang.LoadCatalog(false);
+        //Package.LoadCatalog(false);
+        //Country.LoadCatalog(false);
+        //Genre.LoadCatalog(false);
+    }
+
+    public void Navigate(int page)
+    {
+        switch(page)
+        {
+            case 0:
+                PanLogin.gameObject.SetActive(false);
+                PanUser.gameObject.SetActive(true);
+                PanMovie.gameObject.SetActive(false);
+                PanMain.gameObject.SetActive(false);
+
+                PanUser.Reset();
+                break;
+
+            case 1:
+                PanUser.gameObject.SetActive(false);
+                PanMovie.gameObject.SetActive(true);
+                PanMain.SetActive(false);
+
+                PanMovie.Reset();
+                break;
+
+            case 2:
+                Utility.Modal.ShowConfirmDialog("Test","Another Test", null);
+                break;
+
+            default:
+                PanUser.gameObject.SetActive(false);
+                PanMovie.gameObject.SetActive(false);
+                PanMain.SetActive(true);
+                break;
+        }
+    }
+
+    public void GoBack()
+    {
+        PanUser.gameObject.SetActive(false);
+        PanMovie.gameObject.SetActive(false);
+
+        if (CurrentUser == null) PanLogin.gameObject.SetActive(true);
+        else PanMain.gameObject.SetActive(true);
     }
 
     public User GetCurrentUser()
@@ -34,8 +81,9 @@ public class GameMode : MonoBehaviour {
     public void LoginSuccess(User newUser)
     {
         CurrentUser = newUser;
-        PanelLogin.Reset();
-        PanelLogin.gameObject.SetActive(false);
+        PanLogin.Reset();
+        PanLogin.gameObject.SetActive(false);
+        PanMain.gameObject.SetActive(true);
     }
 
     public void ExitApplication()
