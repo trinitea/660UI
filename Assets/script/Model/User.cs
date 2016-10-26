@@ -23,7 +23,7 @@ public class User
     {
         var preUser = JSON.Parse(json);
 
-        int id = -1;
+        int id = NEW_USER_ID;
         Int32.TryParse(preUser["id_client"], out id); // id_client or id_user
         
         ID = id;
@@ -34,18 +34,33 @@ public class User
         Birthday = Convert.ToDateTime(preUser["anniversaire"]);
 
         // credit card
+        Card = new CreditCard
+        (
+            preUser["carteDeCredit"]["numero"],
+            preUser["carteDeCredit"]["type"],
+            Convert.ToDateTime(preUser["carteDeCredit"]["expiration"]),
+            preUser["carteDeCredit"]["ccv"]
+        );
 
         // address
+        ShippingAddress = new Address
+        (
+            preUser["adresse"]["numeroCivique"],
+            preUser["adresse"]["rue"],
+            preUser["adresse"]["ville"],
+            preUser["adresse"]["province"],
+            preUser["adresse"]["codePostal"]
+        );
     }
 
-    public User(int iD) : this(iD, "", "", "", "", new DateTime(), 
+    public User(int id) : this(id, "", "", "", "", new DateTime(), 
         new CreditCard("", "", new DateTime(), ""),
         new Address("", "", "", "", "")
         ) { }
 
-    public User(int iD, string name, string lastName, string courriel, string telephone, DateTime date, CreditCard creditCard, Address shippingAddress)
+    public User(int id, string name, string lastName, string courriel, string telephone, DateTime date, CreditCard creditCard, Address shippingAddress)
     {
-        ID = ID;
+        ID = id;
         Name = name;
         LastName = lastName;
         Email = courriel;

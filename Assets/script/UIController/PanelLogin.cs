@@ -16,14 +16,15 @@ public class PanelLogin : BasePanel
     {
         if (string.IsNullOrEmpty(response.Error))
         {
-            //create user upon login response
-            Parent.LoginSuccess(new User(User.NEW_USER_ID));
+            User user = new User(response.Value);
+
+            Parent.LoginSuccess(user);
             Debug.Log(response.Value);
         }
         else
         {
-            Parent.LoginSuccess(new User(User.NEW_USER_ID));
-            Debug.Log(response.Value);
+            Debug.Log(response.Error);
+            Reset();
         }
     }
 

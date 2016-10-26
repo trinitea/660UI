@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public class PanelMovie : BasePanel
 {
@@ -28,8 +29,21 @@ public class PanelMovie : BasePanel
 
     public void ShowSearchResult(RestResponse response)
     {
-        if (response.Error == string.Empty || true)
+        if (string.IsNullOrEmpty(response.Error))
         {
+            var results = JSON.Parse(response.Value);
+            List<Movie> movies = new List<Movie>();
+            
+            for(int i = 0; i < results.Count; i++)
+            {
+                int id = -1;
+                int duree = 0;
+                Int32.TryParse(results[i]["id_film"], out id);
+                Int32.TryParse(results[i]["duree"], out duree);
+                movies.Add(new Movie(id, results[i]["titre"], results[i]["duree"], new DateTime(), duree, "", -1 ));
+            }
+            
+            /*
             List<Movie> movies = new List<Movie>() {
                 new Movie(1, "Test Movie 1", "Spooky", new DateTime(), 300, "some resume", 1),
                 new Movie(2, "Test Movie 2", "Spooky", new DateTime(), 200, "some resume", 1),
@@ -39,7 +53,7 @@ public class PanelMovie : BasePanel
                 new Movie(5, "Test Movie 5", "Spooky", new DateTime(), 75, "some resume", 1),
                 new Movie(6, "Test Movie 6", "Spooky", new DateTime(), 75, "some resume", 1),
                 new Movie(8, "Test Movie 8", "Spooky", new DateTime(), 75, "some resume", 1)
-            };
+            };*/
 
             Utility.Modal.ShowMovieResults(movies, Rental);
         }
@@ -51,9 +65,17 @@ public class PanelMovie : BasePanel
 
     public void Rental(Movie movie)
     {
-        AudioSource audio = GetComponent<AudioSource>();
-        if (audio != null) audio.Play();
-        Utility.Modal.ShowConfirmDialog("New Item Acquired", "Congratulation\nYou got " + movie.Title);
+        RestHelper.Instance.RentalMovie(Parent.CurrentUser, movie, RentalConfirm);
+    }
+
+    public void RentalConfirm(RestResponse response)
+    {
+        if(string.IsNullOrEmpty(response.Error))
+        {
+            AudioSource audio = GetComponent<AudioSource>();
+            if (audio != null) audio.Play();
+            Utility.Modal.ShowConfirmDialog("New Item Acquired", "Congratulation\nYou got " + response.Value);
+        }
     }
 
     override public void Reset()

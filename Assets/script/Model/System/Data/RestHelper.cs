@@ -14,8 +14,10 @@ public class RestHelper : MonoBehaviour
     const string URL_CAT_COUNTRIES = "sys_countries";
     const string URL_CAT_PACKAGES = "user_packages";
 
-    const string URL_LOGIN = "user";
-    const string URL_MOVIE_SEARCH = "movie";
+    const string URL_LOGIN = "login";
+    const string URL_USER = "user";
+    const string URL_RENTAL = "location";
+    const string URL_MOVIE_SEARCH = "movies";
 
 
     private static RestHelper instance = null;
@@ -36,44 +38,75 @@ public class RestHelper : MonoBehaviour
     }
 
     // Commands
-    public void Test(Action<RestResponse> callback)
+    public string Test()
     {
-        StartCoroutine(ExecuteGet("http://www.perdu.com/", null, callback));
+        return "{roger:young,bob:{{bobby:1},{bobby:2}}";
     }
 
     public void Login(string username, string password, Action<RestResponse> callback)
     {
-        Dictionary<string, string> param = new Dictionary<string, string>() { { "username", username }, { "password", password } };
-        StartCoroutine( ExecutePost( URL_LOGIN, param, callback ) );
+        Dictionary<string, string> param = new Dictionary<string, string>() { { "courriel", username }, { "motDePasse", password } };
+        StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_LOGIN, param, callback ) );
     }
 
     public void MovieSearch(string titles, string years, string genres, string actors, string scenarists, string realisator, Action<RestResponse> callback)
     {
         Dictionary<string, string> param = new Dictionary<string, string>() {
-            { "title", titles },
-            { "years", years },
+            { "titres", titles },
+            { "annees", years },
             { "genres", genres },
-            { "actors", actors },
-            { "scenarist", scenarists },
-            { "realisator", realisator }
+            { "acteurs", actors },
+            { "scenaristes", scenarists },
+            { "realisateur", realisator }
         };
         
         StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_MOVIE_SEARCH, param, callback ) );
     }
 
-    /*public void MovieSearch(string titles, string years, string genres, string actors, string scenarists, string realisator, Action<RestResponse> callback)
+
+    public void UserCommit(User user, Action<RestResponse> callback)
     {
+
         Dictionary<string, string> param = new Dictionary<string, string>() {
-            { "title", titles },
-            { "years", years },
-            { "genres", genres },
-            { "actors", actors },
-            { "scenarist", scenarists },
-            { "realisator", realisator }
+            { "nom", user.LastName },
+            { "prenom", user.Name },
+            { "telephone", user.Telephone },
+
+            { "carte_numero", user.Card.Number.ToString() },
+            { "carte_type", user.Card.Type },
+            { "carte_expiration", user.Card.ExpirationDate.ToString("MM/yy") },
+            { "carte_ccv", user.Card.CCV.ToString() },
+
+            { "adresse_numeroCivic", user.ShippingAddress.CivicNumber },
+            { "adresse_rue", user.ShippingAddress.Street },
+            { "adresse_ville", user.ShippingAddress.Town },
+            { "adresse_province", user.ShippingAddress.Province },
+            { "adresse_codePostal", user.ShippingAddress.PostalCode }
         };
 
-        StartCoroutine(ExecutePost(URL_MOVIE_SEARCH, param, callback));
-    }*/
+        if (user.ID == User.NEW_USER_ID)
+        {
+            param.Add("courriel", user.Email);
+            param.Add("motDePasse", user.Password);
+            param.Add("anniversaire", user.Birthday.ToString("yyyy/MM/dd"));
+        }
+        else
+        {
+            param.Add("id_client", user.ID.ToString());
+        }
+
+        StartCoroutine(ExecutePost(URL_SERVER + "/" + URL_USER, param, callback));
+    }
+
+    public void RentalMovie(User user, Movie movie, Action<RestResponse> callback)
+    {
+        Dictionary<string, string> param = new Dictionary<string, string>() {
+            { "id_client", user.ID.ToString() },
+            { "id_film", movie.ID.ToString() }
+        };
+
+        StartCoroutine(ExecutePost(URL_SERVER + "/" + URL_RENTAL, param, callback));
+    }
 
     // Catalog Load
     public void GetGenres(Action<RestResponse> callback)

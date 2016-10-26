@@ -68,7 +68,8 @@ public class PanelModal : MonoBehaviour
 
     public void ShowAddressDialog(Address address, Action<Address> callback)
     {
-        this.gameObject.SetActive(true);
+        Debug.Log("should open address dialog");
+        gameObject.SetActive(true);
         PanAddress.gameObject.SetActive(true);
         PanAddress.SetAddress(address, callback);
     }
@@ -77,10 +78,8 @@ public class PanelModal : MonoBehaviour
     {
         Callback = callback;
 
-        if (callback == null)
-        {
-            BtnCancel.gameObject.SetActive(false);
-        }
+        if (callback == null) BtnCancel.gameObject.SetActive(false);
+        else BtnCancel.gameObject.SetActive(true);
 
         gameObject.SetActive(true);
         PanConfirm.gameObject.SetActive(true);
@@ -88,7 +87,6 @@ public class PanelModal : MonoBehaviour
         PanTitle.text = title;
         PanMessage.text = message;
 
-        BtnCancel.gameObject.SetActive(true);
     }
 
     public void ReceiveConfirm(bool response)

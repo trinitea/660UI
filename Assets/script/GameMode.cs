@@ -18,6 +18,9 @@ public class GameMode : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        CurrentUser = new User(User.NEW_USER_ID);
+
         Logger.Parent = this;
         PanLogin.Parent = this;
         PanUser.Parent = this;
@@ -53,7 +56,11 @@ public class GameMode : MonoBehaviour {
                 break;
 
             case 2:
-                Utility.Modal.ShowConfirmDialog("Test","Another Test", null);
+                string jsonString = "{\"roger\":\"young\",\"bob\":[{\"bobby\":1},{\"bobby\":2}]";
+                var data = JSON.Parse(jsonString);
+                Debug.Log(data["roger"]);
+                Debug.Log(data["bob"][0]["bobby"]);
+                Debug.Log(data["bob"][1]["bobby"]);
                 break;
 
             default:
