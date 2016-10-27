@@ -16,14 +16,12 @@ public class PanelLogin : BasePanel
     {
         if (string.IsNullOrEmpty(response.Error))
         {
-            User user = new User(response.Value);
-
-            Parent.LoginSuccess(user);
-            Debug.Log(response.Value);
+            Parent.LoginSuccess(new User(response.Value));
+            Parent.Logger.Message("Welcome " + Parent.CurrentUser.Name + " " + Parent.CurrentUser.LastName);
         }
         else
         {
-            Debug.Log(response.Error);
+            Parent.Logger.Message(response.Error + "\n" + response.Value);
             Reset();
         }
     }

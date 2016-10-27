@@ -46,6 +46,7 @@ public class RestHelper : MonoBehaviour
     public void Login(string username, string password, Action<RestResponse> callback)
     {
         Dictionary<string, string> param = new Dictionary<string, string>() { { "courriel", username }, { "motDePasse", password } };
+        Debug.Log(username + "<>" + password);
         StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_LOGIN, param, callback ) );
     }
 
@@ -66,7 +67,6 @@ public class RestHelper : MonoBehaviour
 
     public void UserCommit(User user, Action<RestResponse> callback)
     {
-
         Dictionary<string, string> param = new Dictionary<string, string>() {
             { "nom", user.LastName },
             { "prenom", user.Name },

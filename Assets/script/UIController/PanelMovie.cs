@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 
 public class PanelMovie : BasePanel
 {
+    public AudioClip SuccessClip;
+    public AudioClip FailureClip;
+
     public InputField TitleField;
     public InputField YearField;
     public InputField GenreField;
@@ -70,11 +72,17 @@ public class PanelMovie : BasePanel
 
     public void RentalConfirm(RestResponse response)
     {
-        if(string.IsNullOrEmpty(response.Error))
+        AudioSource audio = GetComponent<AudioSource>();
+        if (string.IsNullOrEmpty(response.Error))
         {
-            AudioSource audio = GetComponent<AudioSource>();
-            if (audio != null) audio.Play();
+            if (audio != null) audio.PlayOneShot(SuccessClip);
             Utility.Modal.ShowConfirmDialog("New Item Acquired", "Congratulation\nYou got " + response.Value);
+        }
+        else
+        {
+            if (audio != null) audio.PlayOneShot(FailureClip);
+            Utility.Modal.ShowConfirmDialog("Movie Rental Failure", response.Error);
+
         }
     }
 

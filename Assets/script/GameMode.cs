@@ -76,7 +76,7 @@ public class GameMode : MonoBehaviour {
         PanUser.gameObject.SetActive(false);
         PanMovie.gameObject.SetActive(false);
 
-        if (CurrentUser == null) PanLogin.gameObject.SetActive(true);
+        if (CurrentUser.ID == User.NEW_USER_ID) PanLogin.gameObject.SetActive(true);
         else PanMain.gameObject.SetActive(true);
     }
 

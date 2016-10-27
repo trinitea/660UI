@@ -30,20 +30,6 @@ public class PanelUser : BasePanel
     public Button BtnStarterKit;
     public Button BtnAverageKit;
     public Button BtnAdvancedKit;
-
-    public void Init()
-    {
-        if (Parent.CurrentUser.ID == User.NEW_USER_ID || Parent.CurrentUser == null)
-        {
-            CommitNote.text = "Create";
-            WorkingAddress = Parent.CurrentUser.ShippingAddress;
-        }
-        else
-        {
-            CommitNote.text = "Commit";
-            WorkingAddress = new Address("", "", "", "", "");
-        }
-    }
     
     public void  SetWorkingAddress(Address address)
     {
@@ -91,17 +77,18 @@ public class PanelUser : BasePanel
     {
         if (string.IsNullOrEmpty(response.Error))
         {
-            var someUser = JSON.Parse(response.Value);
+            Parent.LoginSuccess(new User(response.Value));
+            Parent.Logger.Message("Successful User Update / SignIn");
         }
         else
         {
-
+            Parent.Logger.Message("User was not created / updated :\n" + response.Error);
         }
     }
 
     override public void Reset()
     {
-        Debug.Log(Parent.CurrentUser.Telephone);
+        WorkingAddress = Parent.CurrentUser.ShippingAddress;
 
         FirstNameField.text = Parent.CurrentUser.Name;
         LastNameField.text = Parent.CurrentUser.LastName;
@@ -122,11 +109,13 @@ public class PanelUser : BasePanel
         {
             PasswordField.enabled = true;
             EmailField.enabled = true;
+            CommitNote.text = "Create";
         }
         else
         {
             PasswordField.enabled = false;
             EmailField.enabled = false;
+            CommitNote.text = "Update";
         }
     }
 

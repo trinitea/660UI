@@ -44,6 +44,7 @@ public class PanelModal : MonoBehaviour
     {
         foreach(GameObject obj in MovieElements) Destroy(obj);
         PanMovies.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ShowMovieResults(List<Movie> movies, Action<Movie> callback)
@@ -68,7 +69,6 @@ public class PanelModal : MonoBehaviour
 
     public void ShowAddressDialog(Address address, Action<Address> callback)
     {
-        Debug.Log("should open address dialog");
         gameObject.SetActive(true);
         PanAddress.gameObject.SetActive(true);
         PanAddress.SetAddress(address, callback);
