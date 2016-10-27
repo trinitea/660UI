@@ -11,6 +11,7 @@ public class MovieElement : MonoBehaviour
 
     public Text Title;
     public Text GenreContent;
+    public Text YearContent;
     public Text DurationContent;
     //public Button botton;
 
@@ -20,6 +21,7 @@ public class MovieElement : MonoBehaviour
     {
         TheMovie = movie;
         Title.text = movie.Title;
+        YearContent.text = movie.ReleaseDate.ToString("yyyy");
         GenreContent.text = movie.Genre;
         DurationContent.text = movie.Title;
 

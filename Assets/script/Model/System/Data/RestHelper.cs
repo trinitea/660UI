@@ -50,14 +50,25 @@ public class RestHelper : MonoBehaviour
         StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_LOGIN, param, callback ) );
     }
 
-    public void MovieSearch(string titles, string years, string genres, string actors, string scenarists, string realisator, Action<RestResponse> callback)
+    public void MovieSearch(
+        string titles,
+        string yearMin,
+        string yearMax,
+        string genres,
+        string langs,
+        string countries,
+        string actors,
+        string realisator,
+        Action<RestResponse> callback)
     {
         Dictionary<string, string> param = new Dictionary<string, string>() {
             { "titres", titles },
-            { "annees", years },
+            { "anneeMin", yearMin },
+            { "anneeMax", yearMax },
             { "genres", genres },
+            { "langues", langs },
+            { "pays", countries },
             { "acteurs", actors },
-            { "scenaristes", scenarists },
             { "realisateur", realisator }
         };
         

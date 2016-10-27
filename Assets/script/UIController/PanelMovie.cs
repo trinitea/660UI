@@ -10,21 +10,25 @@ public class PanelMovie : BasePanel
     public AudioClip FailureClip;
 
     public InputField TitleField;
-    public InputField YearField;
+    public InputField YearMinField;
+    public InputField YearMaxField;
     public InputField GenreField;
+    public InputField LangField;
+    public InputField CountryField;
 
     public InputField ActorField;
-    public InputField ScenaristField;
     public InputField RealisatorField;
 
     public void Search()
     {
         RestHelper.Instance.MovieSearch(
             TitleField.text,
-            YearField.text,
+            YearMinField.text,
+            YearMaxField.text,
             GenreField.text,
+            LangField.text,
+            CountryField.text,
             ActorField.text,
-            ScenaristField.text,
             RealisatorField.text,
             ShowSearchResult);
     }
@@ -89,11 +93,12 @@ public class PanelMovie : BasePanel
     override public void Reset()
     {
         TitleField.text = "";
-        YearField.text = "";
+        YearMinField.text = "";
+        YearMaxField.text = "";
         GenreField.text = "";
-
+        LangField.text = "";
+        CountryField.text = "";
         ActorField.text = "";
-        ScenaristField.text = "";
         RealisatorField.text = "";
     }
 }

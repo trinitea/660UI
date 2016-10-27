@@ -23,9 +23,21 @@ public class PanelModal : MonoBehaviour
     public GameObject MovieTemplate;
     public List<GameObject> MovieElements;
 
+    // Movie Viewer
+    public PanelMovieViewer PanMovieViewer;
+
     void Start()
     {
         PanAddress.Parent = this;
+    }
+
+    #region Address
+
+    public void ShowAddressDialog(Address address, Action<Address> callback)
+    {
+        gameObject.SetActive(true);
+        PanAddress.gameObject.SetActive(true);
+        PanAddress.SetAddress(address, callback);
     }
 
     public void CloseAddress()
@@ -34,11 +46,10 @@ public class PanelModal : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void CloseConfirm()
-    {
-        PanConfirm.SetActive(false);
-        if(!PanMovies.activeSelf) gameObject.SetActive(false);
-    }
+    #endregion
+
+    #region Movies
+    // Moview
 
     public void CloseMovieSelection()
     {
@@ -67,11 +78,35 @@ public class PanelModal : MonoBehaviour
         }
     }
 
-    public void ShowAddressDialog(Address address, Action<Address> callback)
+    public void ShowMovieDetails(Movie movies, Action<Movie> callback)
     {
         gameObject.SetActive(true);
-        PanAddress.gameObject.SetActive(true);
-        PanAddress.SetAddress(address, callback);
+        PanMovieViewer.gameObject.SetActive(true);
+
+        int index = 0;
+        GameObject element;
+        MovieElement movieComponent;
+        /*
+        foreach (Movie movie in movies)
+        {
+            element = Instantiate(MovieTemplate);
+            movieComponent = element.GetComponent<MovieElement>();
+            movieComponent.Init(movie, callback);
+            element.transform.SetParent(PanMovieContent.transform, false);
+
+            element.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -(index + 0.5f) * MovieElement.HEIGHT);
+            index++;
+        }*/
+    }
+
+    #endregion
+
+    #region Confirm / Message
+
+    public void CloseConfirm()
+    {
+        PanConfirm.SetActive(false);
+        if (!PanMovies.activeSelf) gameObject.SetActive(false);
     }
 
     public void ShowConfirmDialog(string title, string message, Action<bool> callback = null)
@@ -98,4 +133,5 @@ public class PanelModal : MonoBehaviour
             Callback = null;
         }
     }
+    #endregion
 }
