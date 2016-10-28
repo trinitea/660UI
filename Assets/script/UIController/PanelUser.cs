@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using SimpleJSON;
 
 public class PanelUser : BasePanel
 {
@@ -110,12 +108,14 @@ public class PanelUser : BasePanel
             PasswordField.enabled = true;
             EmailField.enabled = true;
             CommitNote.text = "Create";
+            Parent.Logger.Message("Please, join the dark side");
         }
         else
         {
             PasswordField.enabled = false;
             EmailField.enabled = false;
             CommitNote.text = "Update";
+            Parent.Logger.Message("You can edit your user here");
         }
     }
 

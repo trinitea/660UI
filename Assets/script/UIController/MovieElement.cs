@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class MovieElement : MonoBehaviour
 {
@@ -13,7 +12,6 @@ public class MovieElement : MonoBehaviour
     public Text GenreContent;
     public Text YearContent;
     public Text DurationContent;
-    //public Button botton;
 
     Action<Movie> Callback;
 
@@ -23,18 +21,13 @@ public class MovieElement : MonoBehaviour
         Title.text = movie.Title;
         YearContent.text = movie.ReleaseDate.ToString("yyyy");
         GenreContent.text = movie.Genre;
-        DurationContent.text = movie.Title;
+        DurationContent.text = movie.Duration.ToString();
 
         Callback = callback;
     }
 
-    public void Rental()
+    public void ActionButton()
     {
-        Utility.Modal.ShowConfirmDialog("Movie Rental", "Do you want to rent " + Title.text + " ?", ConfirmRental);
-    }
-
-    public void ConfirmRental(bool response)
-    {
-        if(response) Callback(TheMovie);
+        if (Callback != null) Callback(TheMovie);
     }
 }

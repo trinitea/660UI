@@ -2,8 +2,6 @@
 using UnityEngine; // for WWWform
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 public class RestHelper : MonoBehaviour
 {
@@ -46,7 +44,7 @@ public class RestHelper : MonoBehaviour
     public void Login(string username, string password, Action<RestResponse> callback)
     {
         Dictionary<string, string> param = new Dictionary<string, string>() { { "courriel", username }, { "motDePasse", password } };
-        Debug.Log(username + "<>" + password);
+
         StartCoroutine( ExecutePost( URL_SERVER + "/" + URL_LOGIN, param, callback ) );
     }
 

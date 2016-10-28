@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using SimpleJSON;
@@ -21,6 +20,20 @@ public class PanelMovie : BasePanel
 
     public void Search()
     {
+        if (
+            string.IsNullOrEmpty(TitleField.text) &&
+            string.IsNullOrEmpty(YearMinField.text) &&
+            string.IsNullOrEmpty(YearMaxField.text) &&
+            string.IsNullOrEmpty(GenreField.text) &&
+            string.IsNullOrEmpty(LangField.text) &&
+            string.IsNullOrEmpty(CountryField.text) &&
+            string.IsNullOrEmpty(ActorField.text) &&
+            string.IsNullOrEmpty(RealisatorField.text)
+            )
+        {
+            Parent.Logger.Message("Please, fill at least one row");
+        }
+
         RestHelper.Instance.MovieSearch(
             TitleField.text,
             YearMinField.text,
@@ -37,36 +50,19 @@ public class PanelMovie : BasePanel
     {
         if (string.IsNullOrEmpty(response.Error))
         {
-            var results = JSON.Parse(response.Value);
-            List<Movie> movies = new List<Movie>();
-            
-            for(int i = 0; i < results.Count; i++)
-            {
-                int id = -1;
-                int duree = 0;
-                Int32.TryParse(results[i]["id_film"], out id);
-                Int32.TryParse(results[i]["duree"], out duree);
-                movies.Add(new Movie(id, results[i]["titre"], results[i]["duree"], new DateTime(), duree, "", -1 ));
-            }
-            
-            /*
-            List<Movie> movies = new List<Movie>() {
-                new Movie(1, "Test Movie 1", "Spooky", new DateTime(), 300, "some resume", 1),
-                new Movie(2, "Test Movie 2", "Spooky", new DateTime(), 200, "some resume", 1),
-                new Movie(3, "Test Movie 3", "Spooky", new DateTime(), 700, "some resume", 1),
-                new Movie(7, "Test Movie 7", "Spooky", new DateTime(), 75, "some resume", 1),
-                new Movie(4, "Test Movie 4", "Spooky", new DateTime(), 69, "some resume", 1),
-                new Movie(5, "Test Movie 5", "Spooky", new DateTime(), 75, "some resume", 1),
-                new Movie(6, "Test Movie 6", "Spooky", new DateTime(), 75, "some resume", 1),
-                new Movie(8, "Test Movie 8", "Spooky", new DateTime(), 75, "some resume", 1)
-            };*/
+            List<Movie> movies = Movie.MoviesFromJson(response.Value);
 
-            Utility.Modal.ShowMovieResults(movies, Rental);
+            Utility.Modal.ShowMovieResults(movies, MovieDetails);
         }
         else
         {
             Debug.Log(response.Error);
         }
+    }
+
+    public void MovieDetails(Movie movie)
+    {
+        Utility.Modal.ShowMovieDetails(movie, Rental);
     }
 
     public void Rental(Movie movie)
@@ -80,7 +76,7 @@ public class PanelMovie : BasePanel
         if (string.IsNullOrEmpty(response.Error))
         {
             if (audio != null) audio.PlayOneShot(SuccessClip);
-            Utility.Modal.ShowConfirmDialog("New Item Acquired", "Congratulation\nYou got " + response.Value);
+            Utility.Modal.ShowConfirmDialog("New Item Acquired", response.Value);
         }
         else
         {
@@ -100,5 +96,8 @@ public class PanelMovie : BasePanel
         CountryField.text = "";
         ActorField.text = "";
         RealisatorField.text = "";
+
+        Parent.Logger.Message("Use pipe '|' to seperate multiple search criteras\n" +
+            "(Use pipe '|' instead of space to seperate first name and last name)");
     }
 }

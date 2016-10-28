@@ -49,7 +49,6 @@ public class PanelModal : MonoBehaviour
     #endregion
 
     #region Movies
-    // Moview
 
     public void CloseMovieSelection()
     {
@@ -68,6 +67,7 @@ public class PanelModal : MonoBehaviour
         MovieElement movieComponent;
         foreach (Movie movie in movies)
         {
+
             element = Instantiate(MovieTemplate);
             movieComponent = element.GetComponent<MovieElement>();
             movieComponent.Init(movie, callback);
@@ -78,25 +78,17 @@ public class PanelModal : MonoBehaviour
         }
     }
 
-    public void ShowMovieDetails(Movie movies, Action<Movie> callback)
+    public void ShowMovieDetails(Movie movie, Action<Movie> callback)
     {
         gameObject.SetActive(true);
         PanMovieViewer.gameObject.SetActive(true);
 
-        int index = 0;
-        GameObject element;
-        MovieElement movieComponent;
-        /*
-        foreach (Movie movie in movies)
-        {
-            element = Instantiate(MovieTemplate);
-            movieComponent = element.GetComponent<MovieElement>();
-            movieComponent.Init(movie, callback);
-            element.transform.SetParent(PanMovieContent.transform, false);
+        PanMovieViewer.Init(movie, callback);
+    }
 
-            element.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -(index + 0.5f) * MovieElement.HEIGHT);
-            index++;
-        }*/
+    public void CloseMovieDetails()
+    {
+        PanMovieViewer.gameObject.SetActive(false);
     }
 
     #endregion

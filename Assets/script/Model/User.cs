@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SimpleJSON;
 
 [System.Serializable]
 public class User
 {
+    /*
+    // For quick login :
+        email:      RoxanneEPool41@gmail.com
+        password:   aishao6veiSh
+    */
+
     public const int NEW_USER_ID = -1;
 
     public int ID { get; private set; }
